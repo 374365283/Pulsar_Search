@@ -1,0 +1,5 @@
+#创建一个centos7的Singularity容器并进入容器
+singularity pull centos：7
+singularity -d build --sandbox pulsar1/ centos_7.sif
+singularity shell --writable pulsar1/
+
