@@ -110,6 +110,21 @@ mkdir src
 cp /usr/local/src/tempo/tempo.hlp src/
 cp /usr/local/src/tempo/tempo.cfg src/
 
+## 安装zlib，libpng
+cd /usr/local/src
+wget https://www.zlib.net/fossils/zlib-1.2.11.tar.gz
+tar xvf zlib-1.2.11.tar.gz
+cd zlib-1.2.11
+ ./configure --prefix=/usr/local/astrosoft/zlib
+ make -j 64 && make install
+ cd ..
+wget https://iweb.dl.sourceforge.net/project/libpng/libpng16/1.6.36/libpng-1.6.36.tar.gz
+tar xvf libpng-1.6.36.tar.gz
+ cd libpng-1.6.36
+ ./configure --prefix=/usr/local/astrosoft/libpng --with-zlib-prefix=/usr/local/astrosoft/zlib LDFLAGS="-L/usr/local/astrosoft/zlib/lib -lz"
+ make -j 64 && make install
+
+
 ## presto安装
 cd /usr/local/astrosoft/presto/src
 make makewisdom 
