@@ -8,7 +8,7 @@ yum -y install vim wget
 yum -y groupinstall "Development Tools" 
 yum -y install libpng12-devel
 
-## 在根目录创建文件presto.sh ，并写入一下内容：
+## 在根目录创建文件presto.sh ，并写入以下内容：
 export http_proxy=http://proxy.pi.sjtu.edu.cn:3004/
 export https_proxy=http://proxy.pi.sjtu.edu.cn:3004/
 export http_proxy=http://proxy.pi.sjtu.edu.cn:3004/
@@ -27,3 +27,113 @@ export TEMPO=/usr/local/astrosoft/tempo
 export PSRCAT_FILE=/usr/local/astrosoft/psrcat_tar/psrcat.db
 
 source presto.sh
+
+安装FFTW3.X 
+cd /usr/local/src
+wget http://www.fftw.org/fftw-3.3.5.tar.gz
+tar xvf fftw-3.3.5.tar.gz
+cd fftw-3.3.5
+./configure --enable-shared --enable-single --prefix=/usr/local/astrosoft/fftw
+make -j && make install
+
+## 安装PGPLOT （参考https://blog.csdn.net/among12345/article/details/93767772）
+cd /usr/local/src
+wget ftp://ftp.astro.caltech.edu/pub/pgplot/pgplot5.2.tar.gz
+tar xvf pgplot5.2.tar.gz
+mkdir /usr/local/astrosoft/pgplot/
+cd /usr/local/astrosoft/pgplot/
+cp /usr/local/src/pgplot/drivers.list .
+drivers.list文件里面选取这几个,把这几行前面的!去掉就可以了.
+
+　　GIDRIV 1 /GIF GIF-format file, landscape
+　　GIDRIV 2 /VGIF GIF-format file, portrait
+　　NUDRIV 0 /NULL Null device (no output) Std F77
+　　PSDRIV 1 /PS PostScript printers, monochrome, landscape Std F77
+　　PSDRIV 2 /VPS Postscript printers, monochrome, portrait Std F77
+　　PSDRIV 3 /CPS PostScript printers, color, landscape Std F77
+　　PSDRIV 4 /VCPS PostScript printers, color, portrait Std F77
+　　XWDRIV 1 /XWINDOW Workstations running X Window System C
+　　XWDRIV 2 /XSERVE Persistent window on X Window System C
+
+yum  -y install libX11 libX11-devel
+yum -y install xorg-x11-drivers.x86_64
+
+cd /usr/local/src/pgplot/src
+cp grpckg1.inc grpckg1.inc.backup
+cp pgplot.inc pgplot.inc.backup
+vim grpckg1.inc
+vim pgplot.inc
+
+先备份，再更改
+
+emacs grpckg1.inc & # Replace " PARAMETER (GRIMAX = 8) " in line 29
+                    #    by   " PARAMETER (GRIMAX = 32) "
+                    
+emacs pgplot.inc &  # Replace " PARAMETER (PGMAXD=8) " in line 7
+                    #    by   " PARAMETER (PGMAXD=32) "
+
+cd /usr/local/astrosoft/pgplot/
+/usr/local/src/pgplot/makemake /usr/local/src/pgplot linux g77_gcc
+执行完毕之后会出现如下的文件
+drivers.list   grexec.f   grpckg1.inc   makefile   pgplot.inc   rgb.txt
+
+emacs makefile & # Replace "FCOMPL=g77"       in line 25 
+                 #   by    "FCOMPL=gfortran" 
+                 # 
+                 # Replace "FFLAGC=-u -Wall -fPIC -O" in line 26
+                 #   by    "FFLAGC=-ffixed-form -ffixed-line-length-none -u -Wall -fPIC -O"
+
+在Makefile中加入 LINUXWSLIBS   = -L/usr/include/X11/lib -lxview -lolgx -lX11 -lm -lf2c -lgfortran 
+make
+make cpg
+
+## 安装GLIB
+yum -y install glib2-devel 
+
+## 安装CFITSIO
+cd /usr/local/src
+wget  http://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio-3.49.tar.gz
+tar xvf cfitsio-3.49.tar.gz
+cd cfitsio
+./configure --prefix=/usr/local/astrosoft/cfitsio
+make -j && make install
+
+## 安装TEMPO
+cd /usr/local/src
+git clone http://git.code.sf.net/p/tempo/tempo
+cd tempo
+./prepare
+./configure --prefix=/usr/local/astrosoft/tempo
+make -j && make install
+cd /usr/local/astrosoft/tempo
+mkdir src
+cp /usr/local/src/tempo/tempo.hlp src/
+cp /usr/local/src/tempo/tempo.cfg src/
+
+## presto安装
+cd /usr/local/astrosoft/presto/src
+make makewisdom 
+make prep 
+make
+cd /usr/local/src
+## 安装pip,numpy,scipy
+wget https://files.pythonhosted.org/packages/c2/f7/c7b501b783e5a74cf1768bc174ee4fb0a8a6ee5af6afa92274ff964703e0/setuptools-40.8.0.zip
+wget https://files.pythonhosted.org/packages/4c/4d/88bc9413da11702cbbace3ccc51350ae099bb351febae8acc85fec34f9af/pip-19.0.2.tar.gz
+unzip setuptools-40.8.0.zip
+cd setuptools-40.8.0
+python setup.py install
+cd ..
+tar xvf pip-19.0.2.tar.gz
+cd pip-19.0.2
+python setup.py install
+pip install numpy scipy
+
+cd /usr/local/astrosoft/presto
+yum install python-devel
+yum install fftw-devel
+pip install .
+cd /usr/local/astrosoft/presto
+yum -y install tkinter
+yum install tk-devel tcl-devel
+
+
