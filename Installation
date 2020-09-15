@@ -56,7 +56,8 @@ singularity shell --writable pulsar1/
 yum -y install vim wget
 yum -y groupinstall "Development Tools" 
 yum -y install libpng12-devel
-mkdir /usr/local/astrosoft
+cd /usr/local
+mkdir astrosoft
 
 安装FFTW3.X 
 cd /usr/local/src
