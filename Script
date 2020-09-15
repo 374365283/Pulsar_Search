@@ -117,7 +117,7 @@ cd ..
 tar xvf pip-19.0.2.tar.gz
 cd pip-19.0.2
 python setup.py install
-pip install numpy scipy
+#pip install numpy scipy
 
 cd /usr/local/astrosoft/presto
 sed -i '21c ppgplot_libraries = ["gfortran","cpgplot", "pgplot", "X11", "png", "m"]' setup.py
