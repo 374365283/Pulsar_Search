@@ -137,3 +137,4 @@ pip install .
 yum -y install tkinter
 yum -y install tk-devel tcl-devel
 #到这里，我的安装流程结束。
+python tests/test_presto_python.py
