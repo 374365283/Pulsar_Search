@@ -8,6 +8,8 @@ singularity shell --writable pulsar
 source presto.sh
 此时，容器中的环境就是我已经安装好presto的环境了。
 
+
+
 接下来开始运行tutorial：
 source presto.sh
 cd /dev/shm
@@ -25,15 +27,18 @@ explorefft Lband_topo_DM0.00.fft
 accelsearch -numharm 4 -zmax 0 Lband_topo_DM0.00.dat
 less -S Lband_topo_DM0.00_ACCEL_0
 cp Lband_rfifind.inf Lband.inf
-
 Lband.birds文件是我按照ppt上的example创建的(在/dev/shm/test中有):
 #Freq  Width #harm grow? bary?
 28.760 0.1   2     0     0
 60.0   0.05  2     1     0
-
 makezaplist.py Lband.birds
 explorefft Lband_topo_DM0.00.fft      
 到这个命令开始出错：prepfold -p 1.0 GBT_Lband_PSR.fil
+报错内容为：
+Error in chkfopen(): No such file or directory
+   path = 'resid2.tmp'
+
+
 
 以下是我在一个新的容器中安装presto的流程：
 首先，获取一个镜像文件centos7.sif，并生成一个容器pulsar1，并进入容器：
@@ -198,5 +203,3 @@ cd /usr/local/astrosoft/presto
 yum -y install tkinter
 yum install tk-devel tcl-devel
 到这里，我的安装流程结束。
-
-
