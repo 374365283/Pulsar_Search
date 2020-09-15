@@ -1,3 +1,5 @@
+这个文档分为三个部分，第一部分是如何进入已经装好presto的镜像文件，第二部分是我运行tutorial的步骤和报错的位置，第三部分是我在新的容器中安装presto的流程。
+
 在Pulsar目录中的Pulsar.simg是我根据下面的安装流程安装好了的镜像文件，获取到镜像文件后，使用命令：
 singularity -d build --sandbox pulsar Pulsar.simg
 就可以获取到容器pulsar，随后：
@@ -5,6 +7,33 @@ singularity shell --writable pulsar
 就可以进入容器，进入容器后：
 source presto.sh
 此时，容器中的环境就是我已经安装好presto的环境了。
+
+接下来开始运行tutorial：
+source presto.sh
+cd /dev/shm
+mkdir test
+cd test
+wget http://www.cv.nrao.edu/~sransom/GBT_Lband_PSR.fil
+readfile GBT_Lband_PSR.fil 
+rfifind -time 2.0 -o Lband GBT_Lband_PSR.fil 
+rfifind -time 1.0 -o Lband GBT_Lband_PSR.fil 
+rfifind -nocompute -time 1.0 -freqsig 6.0 -mask Lband_rfifind.mask -o Lband GBT_Lband_PSR.fil 
+prepdata -nobary -o Lband_topo_DM0.00 -dm 0.0 -mask Lband_rfifind.mask -numout 530000 GBT_Lband_PSR.fil
+exploredat Lband_topo_DM0.00.dat 
+realfft Lband_topo_DM0.00.dat 
+explorefft Lband_topo_DM0.00.fft
+accelsearch -numharm 4 -zmax 0 Lband_topo_DM0.00.dat
+less -S Lband_topo_DM0.00_ACCEL_0
+cp Lband_rfifind.inf Lband.inf
+Lband.birds文件是我按照ppt上的example创建的:
+#Freq  Width #harm grow? bary?
+28.760 0.1   2     0     0
+60.0   0.05  2     1     0
+
+makezaplist.py Lband.birds
+explorefft Lband_topo_DM0.00.fft      
+zapbirds -zap -zapfile Lband.zaplist Lband_topo_DM0.00.fft
+到这个命令开始出错：prepfold -p 1.0 GBT_Lband_PSR.fil
 
 
 以下是我在一个新的容器中安装presto的流程：
@@ -176,28 +205,4 @@ yum -y install tkinter
 yum install tk-devel tcl-devel
 到这里，我的安装流程结束。
 
-接下来开始运行tutorial：
-cd /dev/shm
-mkdir test
-cd test
-wget http://www.cv.nrao.edu/~sransom/GBT_Lband_PSR.fil
-readfile GBT_Lband_PSR.fil 
-rfifind -time 2.0 -o Lband GBT_Lband_PSR.fil 
-rfifind -time 1.0 -o Lband GBT_Lband_PSR.fil 
-rfifind -nocompute -time 1.0 -freqsig 6.0 -mask Lband_rfifind.mask -o Lband GBT_Lband_PSR.fil 
-prepdata -nobary -o Lband_topo_DM0.00 -dm 0.0 -mask Lband_rfifind.mask -numout 530000 GBT_Lband_PSR.fil
-exploredat Lband_topo_DM0.00.dat 
-realfft Lband_topo_DM0.00.dat 
-explorefft Lband_topo_DM0.00.fft
-accelsearch -numharm 4 -zmax 0 Lband_topo_DM0.00.dat
-less -S Lband_topo_DM0.00_ACCEL_0
-cp Lband_rfifind.inf Lband.inf
-Lband.birds文件是我按照ppt上的example创建的:
-#Freq  Width #harm grow? bary?
-28.760 0.1   2     0     0
-60.0   0.05  2     1     0
 
-makezaplist.py Lband.birds
-explorefft Lband_topo_DM0.00.fft      
-zapbirds -zap -zapfile Lband.zaplist Lband_topo_DM0.00.fft
-到这个命令开始出错：prepfold -p 1.0 GBT_Lband_PSR.fil
