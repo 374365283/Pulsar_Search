@@ -25,7 +25,8 @@ explorefft Lband_topo_DM0.00.fft
 accelsearch -numharm 4 -zmax 0 Lband_topo_DM0.00.dat
 less -S Lband_topo_DM0.00_ACCEL_0
 cp Lband_rfifind.inf Lband.inf
-Lband.birds文件是我按照ppt上的example创建的:
+
+Lband.birds文件是我按照ppt上的example创建的(在/dev/shm/test中有):
 #Freq  Width #harm grow? bary?
 28.760 0.1   2     0     0
 60.0   0.05  2     1     0
