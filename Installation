@@ -1,8 +1,3 @@
-## 获取一个镜像文件centos7.sif，并生成一个容器pulsar1，并进入容器
-singularity pull centos：7
-singularity -d build --sandbox pulsar1/ centos_7.sif
-singularity shell --writable pulsar1/
-
 在Pulsar目录中的Pulsar.simg是我根据下面的安装流程安装好了的镜像文件，获取到镜像文件后，使用命令：
 singularity -d build --sandbox pulsar Pulsar.simg
 就可以获取到容器pulsar，随后：
@@ -11,7 +6,14 @@ singularity shell --writable pulsar
 source presto.sh
 此时，容器中的环境就是我已经安装好presto的环境了。
 
+
 以下是我在一个新的容器中安装presto的流程：
+首先，获取一个镜像文件centos7.sif，并生成一个容器pulsar1，并进入容器：
+singularity pull centos：7
+singularity -d build --sandbox pulsar1/ centos_7.sif
+singularity shell --writable pulsar1/
+
+进入容器后，开始安装流程：
 yum -y install vim wget
 yum -y groupinstall "Development Tools" 
 yum -y install libpng12-devel
@@ -25,7 +27,7 @@ export PATH=$PATH:/usr/local/bin:/usr/local/astrosoft/presto/bin:/usr/local/astr
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/astrosoft/presto/lib:/usr/local/astrosoft/pgplot:/usr/local/astrosoft/fftw/lib:/usr/local/astrosoft/cfitsio/lib
 export C_INCLUDE_PATH=$C_INCLUDE_PATH:/usr/local/astrosoft/presto/include:/usr/local/astrosoft/cfitsio/include
 export PKG_CONFIG_PATH=/usr/local/astrosoft/cfitsio/lib/pkgconfig:/usr/local/astrosoft/fftw/lib/pkgconfig：/usr/local/astrosoft/libpng/lib/pkgconfig
-#export PYTHONPATH=/usr/local/astrosoft/presto/python
+export PYTHONPATH=/usr/local/astrosoft/presto/python
 export PGPLOT_DIR=/usr/local/astrosoft/pgplot
 export PGPLOT_FONT=/usr/local/astrosoft/pgplot/grfont.dat
 export PGPLOT_DEV=/xwine
@@ -164,6 +166,7 @@ make
 
 cd /usr/local/astrosoft/presto
 export  PYTHONPATH=
+在根目录的presto.sh中，将export PYTHONPATH=/usr/local/astrosoft/presto/python注释掉。
 yum install python-devel
 yum install fftw-devel
 yum install libpng-devel
