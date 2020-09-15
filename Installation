@@ -175,3 +175,29 @@ cd /usr/local/astrosoft/presto
 yum -y install tkinter
 yum install tk-devel tcl-devel
 到这里，我的安装流程结束。
+
+接下来开始运行tutorial：
+cd /dev/shm
+mkdir test
+cd test
+wget http://www.cv.nrao.edu/~sransom/GBT_Lband_PSR.fil
+readfile GBT_Lband_PSR.fil 
+rfifind -time 2.0 -o Lband GBT_Lband_PSR.fil 
+rfifind -time 1.0 -o Lband GBT_Lband_PSR.fil 
+rfifind -nocompute -time 1.0 -freqsig 6.0 -mask Lband_rfifind.mask -o Lband GBT_Lband_PSR.fil 
+prepdata -nobary -o Lband_topo_DM0.00 -dm 0.0 -mask Lband_rfifind.mask -numout 530000 GBT_Lband_PSR.fil
+exploredat Lband_topo_DM0.00.dat 
+realfft Lband_topo_DM0.00.dat 
+explorefft Lband_topo_DM0.00.fft
+accelsearch -numharm 4 -zmax 0 Lband_topo_DM0.00.dat
+less -S Lband_topo_DM0.00_ACCEL_0
+cp Lband_rfifind.inf Lband.inf
+Lband.birds文件是我按照ppt上的example创建的:
+#Freq  Width #harm grow? bary?
+28.760 0.1   2     0     0
+60.0   0.05  2     1     0
+
+makezaplist.py Lband.birds
+explorefft Lband_topo_DM0.00.fft      
+zapbirds -zap -zapfile Lband.zaplist Lband_topo_DM0.00.fft
+到这个命令开始出错：prepfold -p 1.0 GBT_Lband_PSR.fil
