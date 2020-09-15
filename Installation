@@ -203,3 +203,23 @@ cd /usr/local/astrosoft/presto
 yum -y install tkinter
 yum install tk-devel tcl-devel
 到这里，我的安装流程结束。
+
+随后进入/usr/local/astrosoft/presto运行了python tests/test_presto_python.py
+运行结果中出现error：
+Testing FFT stuff... success
+Testing FFTW call... success
+Testing tablesixstepfft call... success
+Testing reading infiles... success
+Testing writing infiles... success
+Testing allocation and freeing of memory... success
+Testing psrparams and orbitparams stuff... success
+Testing spectralpower and spectralphase... success
+Testing vector shifting / rotation... success
+Testing orbit integration stuff... success
+Testing Fourier response generation... success
+Testing angle functions... success
+
+Error in chkfopen(): No such file or directory
+Testing get_baryv (barycenter)...    path = 'resid2.tmp'
+
+
