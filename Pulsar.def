@@ -138,8 +138,8 @@ sed -i '7c export PYTHONPATH=' presto.sh
 cd /usr/local/astrosoft/presto
 yum -y install python-devel fftw-devel libpng-devel
 pip install .
-yum -y install tkinter
-yum -y install tk-devel tcl-devel
+yum -y install tkinter latex2html
+yum -y install tk-devel tcl-devel 
 
 %runscript
 source /usr/local/astrosoft/presto.sh
