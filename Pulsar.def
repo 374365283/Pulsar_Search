@@ -104,7 +104,7 @@ echo "export PGPLOT_FONT=/usr/local/astrosoft/pgplot/grfont.dat" >> presto.sh
 echo "export PGPLOT_DEV=/xwine" >> presto.sh
 echo "export PGPLOT_LIB=\"-L /usr/X11R6/lib -lX11 -L /usr/local/astrosoft/pgplot -lpgplot\"" >> presto.sh
 echo "export PRESTO=/usr/local/astrosoft/presto" >> presto.sh
-echo "export TEMPO=/usr/local/astrosoft/tempo" >> presto.sh
+echo "export TEMPO=/usr/local/astrosoft/tempo/src" >> presto.sh
 echo "export PSRCAT_FILE=/usr/local/astrosoft/psrcat_tar/psrcat.db" >> presto.sh
 source /usr/local/astrosoft/presto.sh
 
