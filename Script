@@ -1,4 +1,4 @@
-cp -r /root/pgplot5.2.tar.gz /usr/local/src/
+cp -r pgplot5.2.tar.gz /usr/local/src/
 export http_proxy=http://proxy.pi.sjtu.edu.cn:3004/
 export https_proxy=http://proxy.pi.sjtu.edu.cn:3004/
  yum -y install vim wget
