@@ -1,6 +1,7 @@
+cp -r /root/pgplot5.2.tar.gz /usr/local/src/
 export http_proxy=http://proxy.pi.sjtu.edu.cn:3004/
 export https_proxy=http://proxy.pi.sjtu.edu.cn:3004/
-yum -y install vim wget
+ yum -y install vim wget
 yum -y groupinstall "Development Tools" 
 yum -y install libpng12-devel
 cd /usr/local
@@ -17,7 +18,6 @@ make -j && make install
 
 #Install PGPLOT
 cd /usr/local/src
-wget ftp://ftp.astro.caltech.edu/pub/pgplot/pgplot5.2.tar.gz(connection is unreachable)
 tar xvf pgplot5.2.tar.gz
 cd /usr/local/astrosoft
 mkdir pgplot
@@ -126,7 +126,6 @@ cd /usr/local/astrosoft/presto
 sed -i '21c ppgplot_libraries = ["gfortran","cpgplot", "pgplot", "X11", "png", "m"]' setup.py
 cd /usr/local/astrosoft/presto/src
 make 
-#这里需要注意，在根据INSTALL文件安装时，可能在make步骤之后还会有有一个make fftfit。这个时候需要看一下Makefile文件的build那下面的最后一行有没有这一行：python fftfit_src/test_fftfit.py。假如有这一行，就不需要make fftfit这一步了。可能看到此文章时他们已经修改了INSTALL文件。总之只要知道这一步和这一行是重复的就可以了。  
 cd /usr/local/astrosoft/presto
 export  PYTHONPATH=
 cd /usr/local/astrosoft
@@ -136,5 +135,3 @@ yum -y install python-devel fftw-devel libpng-devel
 pip install .
 yum -y install tkinter
 yum -y install tk-devel tcl-devel
-#Installation finished
-python /usr/local/astrosoft/presto/tests/test_presto_python.py
