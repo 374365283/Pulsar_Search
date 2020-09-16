@@ -166,7 +166,7 @@ export PGPLOT_FONT=/usr/local/astrosoft/pgplot/grfont.dat
 export PGPLOT_DEV=/xwine
 export PGPLOT_LIB="-L /usr/X11R6/lib -lX11 -L /usr/local/astrosoft/pgplot -lpgplot"
 export PRESTO=/usr/local/astrosoft/presto
-export TEMPO=/usr/local/astrosoft/tempo
+export TEMPO=/usr/local/astrosoft/tempo/src
 export PSRCAT_FILE=/usr/local/astrosoft/psrcat_tar/psrcat.db
 
 source presto.sh
@@ -206,7 +206,7 @@ yum install fftw-devel
 yum install libpng-devel
 pip install .
 cd /usr/local/astrosoft/presto
-yum -y install tkinter
+yum -y install tkinter latex2html
 yum install tk-devel tcl-devel
 到这里，我的安装流程结束。
 
