@@ -1,7 +1,7 @@
 Bootstrap: docker
 From: centos:7
 %files
-  /root/pgplot5.2.tar.gz /usr/local/src/ 
+  pgplot5.2.tar.gz /usr/local/src/ 
 %environment
    export http_proxy=http://proxy.pi.sjtu.edu.cn:3004/
    export https_proxy=http://proxy.pi.sjtu.edu.cn:3004/
