@@ -15,7 +15,7 @@ cd fftw-3.3.5
 ./configure --enable-shared --enable-single --prefix=/usr/local/astrosoft/fftw
 make -j && make install
 
-#安装PGPLOT
+#Install PGPLOT
 cd /usr/local/src
 wget ftp://ftp.astro.caltech.edu/pub/pgplot/pgplot5.2.tar.gz(connection is unreachable)
 tar xvf pgplot5.2.tar.gz
@@ -48,10 +48,10 @@ sed -i '29c LINUXWSLIBS   = -L/usr/include/X11/lib -lxview -lolgx -lX11 -lm -lf2
 make
 make cpg
 
-#安装GLIB
+#Install GLIB
 yum -y install glib2-devel 
 
-#安装CFITSIO
+#Install CFITSIO
 cd /usr/local/src
 wget  https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio3390.tar.gz
 tar xvf cfitsio3390.tar.gz
@@ -59,7 +59,7 @@ cd cfitsio
 ./configure --prefix=/usr/local/astrosoft/cfitsio
 make -j && make install
 
-#安装TEMPO
+#Install TEMPO
 cd /usr/local/src
 git clone http://git.code.sf.net/p/tempo/tempo
 cd tempo
@@ -72,7 +72,7 @@ mkdir src
 cp /usr/local/src/tempo/tempo.hlp src/
 cp /usr/local/src/tempo/tempo.cfg src/
 
-#安装zlib，libpng
+#Install zlib and libpng
 cd /usr/local/src
 wget https://www.zlib.net/fossils/zlib-1.2.11.tar.gz
 tar xvf zlib-1.2.11.tar.gz
@@ -103,14 +103,14 @@ echo "export TEMPO=/usr/local/astrosoft/tempo" >> presto.sh
 echo "export PSRCAT_FILE=/usr/local/astrosoft/psrcat_tar/psrcat.db" >> presto.sh
 source /usr/local/astrosoft/presto.sh
 
-#presto安装
+#Install presto
 cd /usr/local/astrosoft/presto/src
 make makewisdom 
 make prep 
 make
 cd /usr/local/src
 
-## 安装pip,numpy,scipy
+#Install pip,numpy,scipy
 wget https://files.pythonhosted.org/packages/c2/f7/c7b501b783e5a74cf1768bc174ee4fb0a8a6ee5af6afa92274ff964703e0/setuptools-40.8.0.zip
 wget https://files.pythonhosted.org/packages/4c/4d/88bc9413da11702cbbace3ccc51350ae099bb351febae8acc85fec34f9af/pip-19.0.2.tar.gz
 unzip setuptools-40.8.0.zip
@@ -136,5 +136,5 @@ yum -y install python-devel fftw-devel libpng-devel
 pip install .
 yum -y install tkinter
 yum -y install tk-devel tcl-devel
-#到这里，我的安装流程结束。
-python tests/test_presto_python.py
+#Installation finished
+python /usr/local/astrosoft/presto/tests/test_presto_python.py
