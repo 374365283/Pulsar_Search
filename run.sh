@@ -23,14 +23,13 @@ time8='date +%s'
 makezaplist.py Lband.birds
 time9='date +%s'
 #explorefft Lband_topo_DM0.00.fft
-prepfold -p 1.0 GBT_Lband_PSR.fil
+echo|prepfold -p 1.0 GBT_Lband_PSR.fil
 time10='date +%s'
-DDplan.py -d 500.0 -n 96 -b 96 -t 0.000072 -f 1400.0 -s 32 -r 0.5
+echo|DDplan.py -d 500.0 -n 96 -b 96 -t 0.000072 -f 1400.0 -s 32 -r 0.5
 time11='date +%s'
 prepsubband -nsub 32 -lodm 0.0 -dmstep 2.0 -numdms 24 -numout 132500 -downsamp 4 -mask Lband_rfifind.mask -o Lband GBT_Lband_PSR.fil 
 time12='date +%s'
 cp $PRESTO/tests/dedisp.py .
-#jed dedisp.py 
 time13='date +%s'
 python dedisp.py
 time14='date +%s'
@@ -48,18 +47,17 @@ cp $PRESTO/examplescripts/ACCEL_sift.py .
 time19='date +%s'
 python ACCEL_sift.py > cands.txt
 time20='date +%s'
-#less cands.txt 
-prepfold -accelcand 2 -accelfile Lband_DM62.00_ACCEL_0.cand Lband_DM62.00.dat
+echo|prepfold -accelcand 2 -accelfile Lband_DM62.00_ACCEL_0.cand Lband_DM62.00.dat
 time21='date +%s'
 #ls subbands/
-prepfold -accelcand 2 -accelfile Lband_DM62.00_ACCEL_0.cand -dm 62 subbands/Lband_DM72.00.sub??
+echo|prepfold -accelcand 2 -accelfile Lband_DM62.00_ACCEL_0.cand -dm 62 subbands/Lband_DM72.00.sub??
 time22='date +%s'
-prepfold -n 64 -nsub 96 -p 0.004621638 -dm 62.0 GBT_Lband_PSR.fil 
+echo|prepfold -n 64 -nsub 96 -p 0.004621638 -dm 62.0 GBT_Lband_PSR.fil 
 time23='date +%s'
 single_pulse_search.py *dat
 time24='date +%s'
-#gv Lband_singlepulse.ps
-
+duration=`echo "$time24-$time1" | bc -l`
+echo "total time = $duration sec"
 duration=`echo "$time2-$time1" | bc -l`
 echo "rfifind1 = $duration sec"
 duration=`echo "$time3-$time2" | bc -l`
