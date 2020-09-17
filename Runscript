@@ -60,3 +60,35 @@ single_pulse_search.py *dat
 time24='date +%s'
 #gv Lband_singlepulse.ps
 
+duration=`echo "$time2-$time1" | bc -l`
+echo "rfifind1 = $duration sec"
+duration=`echo "$time3-$time2" | bc -l`
+echo "rfifind2 = $duration sec"
+duration=`echo "$time4-$time3" | bc -l`
+echo "rfifind3 = $duration sec"
+duration=`echo "$time5-$time4" | bc -l`
+echo "preparedata = $duration sec"
+duration=`echo "$time6-$time5" | bc -l`
+echo "realfft = $duration sec"
+duration=`echo "$time7-$time6" | bc -l`
+echo "accelsearch = $duration sec"
+duration=`echo "$time9-$time8" | bc -l`
+echo "makezaplist = $duration sec"
+duration=`echo "$time10-$time9" | bc -l`
+echo "prepfold = $duration sec"
+duration=`echo "$time11-$time10" | bc -l`
+echo "DDplan = $duration sec"
+duration=`echo "$time12-$time11" | bc -l`
+echo "prepsubband = $duration sec"
+duration=`echo "$time14-$time13" | bc -l`
+echo "dedisp = $duration sec"
+duration=`echo "$time16-$time15" | bc -l`
+echo "realfft = $duration sec"
+duration=`echo "$time17-$time16" | bc -l`
+echo "zapbirds = $duration sec"
+duration=`echo "$time12-$time11" | bc -l`
+echo "prepsubband = $duration sec"
+duration=`echo "$time12-$time11" | bc -l`
+echo "prepsubband = $duration sec"
+duration=`echo "$time12-$time11" | bc -l`
+echo "prepsubband = $duration sec"
