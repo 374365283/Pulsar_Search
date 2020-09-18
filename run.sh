@@ -1,14 +1,15 @@
 source /root/presto.sh
 export PRESTO=/usr/local/astrosoft/presto
-#readfile GBT_Lband_PSR.fil 
+export INPUT=GBT_Lband_PSR.fil
+#readfile $INPUT 
 time1=`date +%s`
-rfifind -time 2.0 -o Lband GBT_Lband_PSR.fil 
+rfifind -time 2.0 -o Lband $INPUT  
 time2=`date +%s`
-rfifind -time 1.0 -o Lband GBT_Lband_PSR.fil 
+rfifind -time 1.0 -o Lband $INPUT 
 time3=`date +%s`
-rfifind -nocompute -time 1.0 -freqsig 6.0 -mask Lband_rfifind.mask -o Lband GBT_Lband_PSR.fil 
+rfifind -nocompute -time 1.0 -freqsig 6.0 -mask Lband_rfifind.mask -o Lband $INPUT  
 time4=`date +%s`
-prepdata -nobary -o Lband_topo_DM0.00 -dm 0.0 -mask Lband_rfifind.mask -numout 530000 GBT_Lband_PSR.fil 
+prepdata -nobary -o Lband_topo_DM0.00 -dm 0.0 -mask Lband_rfifind.mask -numout 530000 $INPUT  
 time5=`date +%s`
 #exploredat Lband_topo_DM0.00.dat 
 realfft Lband_topo_DM0.00.dat 
@@ -23,11 +24,11 @@ time8=`date +%s`
 makezaplist.py Lband.birds
 time9=`date +%s`
 #explorefft Lband_topo_DM0.00.fft
-echo|prepfold -p 1.0 GBT_Lband_PSR.fil
+echo|prepfold -p 1.0 $INPUT
 time10=`date +%s`
 echo|DDplan.py -d 500.0 -n 96 -b 96 -t 0.000072 -f 1400.0 -s 32 -r 0.5
 time11=`date +%s`
-prepsubband -nsub 32 -lodm 0.0 -dmstep 2.0 -numdms 24 -numout 132500 -downsamp 4 -mask Lband_rfifind.mask -o Lband GBT_Lband_PSR.fil 
+prepsubband -nsub 32 -lodm 0.0 -dmstep 2.0 -numdms 24 -numout 132500 -downsamp 4 -mask Lband_rfifind.mask -o Lband $INPUT 
 time12=`date +%s`
 cp $PRESTO/tests/dedisp.py .
 time13=`date +%s`
@@ -52,7 +53,7 @@ time21=`date +%s`
 #ls subbands/
 echo|prepfold -accelcand 2 -accelfile Lband_DM62.00_ACCEL_0.cand -dm 62 subbands/Lband_DM72.00.sub??
 time22=`date +%s`
-echo|prepfold -n 64 -nsub 96 -p 0.004621638 -dm 62.0 GBT_Lband_PSR.fil 
+echo|prepfold -n 64 -nsub 96 -p 0.004621638 -dm 62.0 $INPUT
 time23=`date +%s`
 single_pulse_search.py *dat
 time24=`date +%s`
