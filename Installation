@@ -1,12 +1,4 @@
-这个文档分为三个部分，第一部分是如何进入已经装好presto的镜像文件，第二部分是我运行tutorial的步骤和报错的位置，第三部分是我在新的容器中安装presto的流程。
-其中，安装完毕后，运行python tests/test_presto_python.py，报错内容为：
-Error in chkfopen(): No such file or directory
-Testing get_baryv (barycenter)...    path = 'resid2.tmp'
-运行tutorial到prepfold -p 1.0 GBT_Lband_PSR.fil这个命令时，报错内容为：
-Error in chkfopen(): No such file or directory
-   path = 'resid2.tmp'
-
-第一部分，在Pulsar目录中的Pulsar.simg是我根据下面的安装流程安装好了的镜像文件，获取到镜像文件后，使用命令：
+在Pulsar目录中的Pulsar.simg是我根据下面的安装流程安装好了的镜像文件，获取到镜像文件后，使用命令：
 singularity -d build --sandbox pulsar Pulsar.simg
 就可以获取到容器pulsar，随后：
 singularity shell --writable pulsar
@@ -16,37 +8,7 @@ source presto.sh
 
 
 
-第二部分接下来开始运行tutorial：
-source presto.sh
-cd /dev/shm
-mkdir test
-cd test
-wget http://www.cv.nrao.edu/~sransom/GBT_Lband_PSR.fil
-readfile GBT_Lband_PSR.fil 
-rfifind -time 2.0 -o Lband GBT_Lband_PSR.fil 
-rfifind -time 1.0 -o Lband GBT_Lband_PSR.fil 
-rfifind -nocompute -time 1.0 -freqsig 6.0 -mask Lband_rfifind.mask -o Lband GBT_Lband_PSR.fil 
-prepdata -nobary -o Lband_topo_DM0.00 -dm 0.0 -mask Lband_rfifind.mask -numout 530000 GBT_Lband_PSR.fil
-exploredat Lband_topo_DM0.00.dat 
-realfft Lband_topo_DM0.00.dat 
-explorefft Lband_topo_DM0.00.fft
-accelsearch -numharm 4 -zmax 0 Lband_topo_DM0.00.dat
-less -S Lband_topo_DM0.00_ACCEL_0
-cp Lband_rfifind.inf Lband.inf
-Lband.birds文件是我按照ppt上的example创建的(在/dev/shm/test中有):
-#Freq  Width #harm grow? bary?
-28.760 0.1   2     0     0
-60.0   0.05  2     1     0
-makezaplist.py Lband.birds
-explorefft Lband_topo_DM0.00.fft      
-到这个命令开始出错：prepfold -p 1.0 GBT_Lband_PSR.fil
-报错内容为：
-Error in chkfopen(): No such file or directory
-   path = 'resid2.tmp'
-
-
-
-第三部分，以下是我在一个新的容器中安装presto的流程：
+以下是我在一个新的容器中安装presto的流程：
 首先，获取一个镜像文件centos7.sif，并生成一个容器pulsar1，并进入容器：
 singularity pull centos：7
 singularity -d build --sandbox pulsar1/ centos_7.sif
@@ -211,21 +173,3 @@ yum install tk-devel tcl-devel
 到这里，我的安装流程结束。
 
 随后进入/usr/local/astrosoft/presto运行了python tests/test_presto_python.py
-运行结果中出现error：
-Testing FFT stuff... success
-Testing FFTW call... success
-Testing tablesixstepfft call... success
-Testing reading infiles... success
-Testing writing infiles... success
-Testing allocation and freeing of memory... success
-Testing psrparams and orbitparams stuff... success
-Testing spectralpower and spectralphase... success
-Testing vector shifting / rotation... success
-Testing orbit integration stuff... success
-Testing Fourier response generation... success
-Testing angle functions... success
-
-Error in chkfopen(): No such file or directory
-Testing get_baryv (barycenter)...    path = 'resid2.tmp'
-
-
