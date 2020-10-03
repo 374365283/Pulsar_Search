@@ -120,7 +120,7 @@ cd ..
 tar xvf pip-19.0.2.tar.gz
 cd pip-19.0.2
 python setup.py install
-pip install numpy scipy
+#pip install numpy scipy
 
 cd /usr/local/astrosoft/presto
 sed -i '21c ppgplot_libraries = ["gfortran","cpgplot", "pgplot", "X11", "png", "m"]' setup.py
@@ -132,6 +132,7 @@ cd /usr/local/astrosoft
 sed -i '7c export PYTHONPATH=' presto.sh
 cd /usr/local/astrosoft/presto
 yum -y install python-devel fftw-devel libpng-devel
+pip install -I pyparsing==2.2.0
 pip install .
 yum -y install tkinter latex2html
 yum -y install tk-devel tcl-devel
